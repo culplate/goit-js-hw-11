@@ -1,1 +1,22 @@
 @import './common';
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    height: 60px;
+    background-color: cornflowerblue;
+}
+
+.gallery {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+    
+    .gallery-card {
+            flex-basis: calc((100% - 24px * 3) / 4);
+        }
+}
