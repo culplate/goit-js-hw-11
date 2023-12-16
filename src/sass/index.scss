@@ -1,5 +1,9 @@
 @import './common';
 
+img {
+    display: block;
+}
+
 .header {
     display: flex;
     flex-direction: row;
@@ -11,12 +15,31 @@
 }
 
 .gallery {
+    margin: 20px auto;
+    width: 97%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 24px;
+    gap: 20px;
     
-    .gallery-card {
-            flex-basis: calc((100% - 24px * 3) / 4);
+    .photo-card {
+        border: solid 1px grey;
+        flex-basis: calc((100% - 20px * 3) / 4);
+
+        img {
+            align-self: center;
+            object-fit: cover;
+            width: 100%;
+            height: 220px;
         }
+
+        .info {
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            font-size: 14px;
+            justify-content: space-evenly;
+        }
+    }
+
 }

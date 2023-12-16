@@ -14,32 +14,54 @@ refs.searchBtn.addEventListener('click', (event) => {
     event.preventDefault();
     const formData = new FormData(refs.searchForm);
     const { searchQuery } = Object.fromEntries(formData.entries());
-    console.log(searchQuery)
+
     if (searchQuery.length === 0) {
         Notiflix.Notify.warning('Your request should not be empty')
         return;
     }
+
+    refs.gallery.innerHTML = '';
     renderData(searchQuery);
 })
 
 function createMarkup(arr) {
-    return arr.map(({ webformatURL }) => {
+    return arr.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
         return `
             <div class="photo-card">
-                <img src="${webformatURL}" alt="" loading="lazy" />
+                <img src="${webformatURL}" alt="${tags}" loading="lazy" />
                 <div class="info">
-                    <p class="info-item">
-                        <b>Likes</b>
-                    </p>
-                    <p class="info-item">
-                        <b>Views</b>
-                    </p>
-                    <p class="info-item">
-                        <b>Comments</b>
-                    </p>
-                    <p class="info-item">
-                        <b>Downloads</b>
-                    </p>
+                    <div class="info-item">
+                        <p>
+                            <b>Likes:</b>
+                        </p>
+                        <p>
+                            ${likes}
+                        </p>
+                    </div>
+                    <div class="info-item">
+                        <p>
+                            <b>Views:</b>
+                        </p>
+                        <p>
+                            ${views}
+                        </p>
+                    </div>
+                    <div class="info-item">
+                        <p>
+                            <b>Comments:</b>
+                        </p>
+                        <p>
+                            ${comments}
+                        </p>
+                    </div>
+                    <div class="info-item">
+                        <p>
+                            <b>Downloads:</b>
+                        </p>
+                        <p>
+                            ${downloads}
+                        </p>
+                    </div>
                 </div>
             </div>
         `
