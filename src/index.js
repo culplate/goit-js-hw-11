@@ -12,11 +12,12 @@ const refs = {
 
 refs.searchBtn.addEventListener('click', (event) => {
     event.preventDefault();
+    
     const formData = new FormData(refs.searchForm);
     const { searchQuery } = Object.fromEntries(formData.entries());
 
     if (searchQuery.length === 0) {
-        Notiflix.Notify.warning('Your request should not be empty')
+        Notiflix.Notify.warning(`Your request should not be empty`)
         return;
     }
 
@@ -69,16 +70,21 @@ function createMarkup(arr) {
     ).join('')
 }
 
-async function renderData(query) {
+async function renderData(query, page) {
     try {
-        const data = await fetchData(query);
+        const data = await fetchData(query, page);
+
+        if (data.length === 0) {
+            Notiflix.Notify.failure('No results matching your search :(')
+            return;
+        }
         refs.gallery.insertAdjacentHTML('beforeend', createMarkup(data))
     } catch (error) {
         console.log(error);
     }
 }
 
-async function fetchData(query) {
+async function fetchData(query, page = 1) {
     try {
         const response = await axios(BASE_URL, {
             params: {
@@ -88,7 +94,7 @@ async function fetchData(query) {
                 orientation: 'horizontal',
                 safesearch: true,
                 per_page: 40,
-                page: 1
+                page: page
             }
         })
         return response.data.hits;
