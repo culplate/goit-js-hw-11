@@ -64,10 +64,16 @@ img {
     max-width: 150px;
     display: block;
     margin-bottom: 20px;
+    border-top: 2px solid #f0f0f0;
+    border-left: 2px solid #f0f0f0;
+}
+
+.search-btn {
+    border-top: 2px solid #C2D9FF;
+    border-left: 2px solid #C2D9FF;
 }
 
 .search-btn, .load-more {
-
     padding: 10px 20px;
     font-weight: 700;
     background: #ffffffcb;
@@ -75,8 +81,6 @@ img {
     border-radius: .5rem;
     border-bottom: 2px solid #8E8FFA;
     border-right: 2px solid #8E8FFA;
-    border-top: 2px solid #C2D9FF;
-    border-left: 2px solid #C2D9FF;
     transition-duration: .3s;
     transition-property: border-top,
         border-left,
