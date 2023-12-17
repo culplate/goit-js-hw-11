@@ -2,14 +2,12 @@ import axios from "axios";
 import Notiflix from "notiflix";
 
 // TO DO:
-// 1. Finish pagination - remove LoadMore button when collection ended + message user
 // 2. Clean code - move API functions to separate file
 // 3. Style LoadMore button
 // TO DO (later):
 // 1. Notify with total results found
 // 2. SimpleLightBox
 // 3. infiniteScroll
-
 
 const API_KEY = '41284916-bd469a2634b9bca975146e6bc';
 const BASE_URL = 'https://pixabay.com/api'
@@ -23,8 +21,8 @@ const refs = {
     loadMoreBtn: document.querySelector('.load-more')
 }
 
-refs.searchBtn.addEventListener('click', handleSubmit)
-refs.loadMoreBtn.addEventListener('click', loadMore)
+refs.searchBtn.addEventListener('click', handleSubmit);
+refs.loadMoreBtn.addEventListener('click', loadMore);
 
 function handleSubmit(event) {
     event.preventDefault();
@@ -97,16 +95,20 @@ async function renderData(query, page) {
     try {
         refs.loadMoreBtn.classList.add('is-hidden');
         const data = await fetchData(query, page);
-        if (data.length === 0) {
+        if (data.totalHits === 0) {
             Notiflix.Notify.failure('No results matching your search :(')
             return;
         }
-        refs.gallery.insertAdjacentHTML('beforeend', createMarkup(data));
-        
+        if (refs.gallery.childElementCount >= data.totalHits) { // handling the end of results
+            refs.loadMoreBtn.classList.add('is-hidden');
+            Notiflix.Notify.failure(`We're sorry, but you've reached the end of search results.`)
+            return;
+        }
+        refs.gallery.insertAdjacentHTML('beforeend', createMarkup(data.hits));
+        refs.loadMoreBtn.classList.remove('is-hidden');
     } catch (error) {
         console.log(error);
-    } finally {
-        refs.loadMoreBtn.classList.remove('is-hidden');
+        Notiflix.Notify.failure(error)
     }
 }
 
@@ -123,8 +125,7 @@ async function fetchData(query, page = 1) {
                 page: page
             }
         })
-        console.log(response)
-        return response.data.hits;
+        return response.data;
     } catch (error) {
         Notiflix.Notify.failure(error.response.data)
     }
