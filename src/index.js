@@ -1,18 +1,16 @@
-import axios from "axios";
 import Notiflix from "notiflix";
+import {fetchData} from "./pixabay-api"
 
-// TO DO:
-// 2. Clean code - move API functions to separate file
-// 3. Style LoadMore button
-// TO DO (later):
+// TODO (later):
 // 1. Notify with total results found
 // 2. SimpleLightBox
 // 3. infiniteScroll
+// 4. make hide/show elems functions
+// TODO (latest):
+// 1. Remake cards (better hover)
+// 2. fav feature
 
-const API_KEY = '41284916-bd469a2634b9bca975146e6bc';
-const BASE_URL = 'https://pixabay.com/api'
 let page = 1;
-
 const refs = {
     searchBtn: document.querySelector('.search-form button'),
     searchForm: document.querySelector('.search-form'),
@@ -95,38 +93,20 @@ async function renderData(query, page) {
     try {
         refs.loadMoreBtn.classList.add('is-hidden');
         const data = await fetchData(query, page);
-        if (data.totalHits === 0) {
+        if (data.totalHits === 0) { // handling no results
             Notiflix.Notify.failure('No results matching your search :(')
             return;
-        }
-        if (refs.gallery.childElementCount >= data.totalHits) { // handling the end of results
+        } else if (data.hits.length < 40) { // handling the end of results
             refs.loadMoreBtn.classList.add('is-hidden');
-            Notiflix.Notify.failure(`We're sorry, but you've reached the end of search results.`)
+            Notiflix.Notify.info(`You've reached the end of search results!`)
+            refs.gallery.insertAdjacentHTML('beforeend', createMarkup(data.hits));
             return;
+        } else {
+            refs.gallery.insertAdjacentHTML('beforeend', createMarkup(data.hits));
+            refs.loadMoreBtn.classList.remove('is-hidden');
         }
-        refs.gallery.insertAdjacentHTML('beforeend', createMarkup(data.hits));
-        refs.loadMoreBtn.classList.remove('is-hidden');
     } catch (error) {
         console.log(error);
         Notiflix.Notify.failure(error)
-    }
-}
-
-async function fetchData(query, page = 1) {
-    try {
-        const response = await axios(BASE_URL, {
-            params: {
-                key: API_KEY,
-                q: query,
-                image_type: 'photo',
-                orientation: 'horizontal',
-                safesearch: true,
-                per_page: 40,
-                page: page
-            }
-        })
-        return response.data;
-    } catch (error) {
-        Notiflix.Notify.failure(error.response.data)
     }
 }
