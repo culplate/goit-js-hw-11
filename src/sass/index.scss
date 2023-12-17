@@ -14,6 +14,7 @@ img {
     z-index:999;
     height: 76px;
     background-color: #C2D9FF;
+    border-bottom: solid 1px #b6ccef;
 }
 
 .gallery {
@@ -61,7 +62,6 @@ img {
 
 .load-more {
     margin: 0 auto;
-    max-width: 150px;
     display: block;
     margin-bottom: 20px;
     border-top: 2px solid #f0f0f0;
@@ -74,8 +74,11 @@ img {
 }
 
 .search-btn, .load-more {
+    cursor: pointer;
     padding: 10px 20px;
-    font-weight: 700;
+    min-width: 100px;
+    max-width: 150px;
+    font-weight: 500;
     background: #ffffffcb;
     color: #8E8FFA;
     border-radius: .5rem;
@@ -86,10 +89,12 @@ img {
         border-left,
         border-bottom,
         border-right,
-        box-shadow;
+        box-shadow,
+        font-weight;
 }
 
 .search-btn:hover, .load-more:hover {
+    font-weight: 600;
     border-top: 2px solid #8E8FFA;
     border-left: 2px solid #8E8FFA;
     border-bottom: 2px solid #8E8FFA;
