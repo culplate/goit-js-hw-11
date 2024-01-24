@@ -40,8 +40,8 @@ img {
         }
         
         img:hover {
-            opacity: 0.9;
-            transform: scale(1.02);
+            opacity: 0.95;
+            transform: scale(1.01);
             overflow: hidden;
         }
 
@@ -64,8 +64,8 @@ img {
     margin: 0 auto;
     display: block;
     margin-bottom: 20px;
-    border-top: 2px solid #f0f0f0;
-    border-left: 2px solid #f0f0f0;
+    border-top: 1px solid #ebebeb;
+    border-left: 1px solid #ebebeb;
 }
 
 .search-btn {
